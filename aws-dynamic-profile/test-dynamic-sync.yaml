@@ -1,0 +1,43 @@
+kind: source
+spec:
+  # Source spec section
+  name: aws
+  path: cloudquery/aws
+  registry: cloudquery
+  version: "v31.3.0"
+  tables: ["aws_ec2_instances"]
+  destinations: ["postgresql"]
+  # Learn more about the configuration options at https://cql.ink/aws_source
+  spec:
+    accounts:
+      - account_name: "${AWS_ACCOUNT_NAME}"
+        role_arn: "${AWS_ROLE_ARN}"
+    # Optional parameters
+    # regions: []
+    # accounts: []
+    # org: nil
+    # concurrency: 50000
+    # initialization_concurrency: 4
+    # aws_debug: false
+    # max_retries: 10
+    # max_backoff: 30
+    # custom_endpoint_url: ""
+    # custom_endpoint_hostname_immutable: nil # required when custom_endpoint_url is set
+    # custom_endpoint_partition_id: "" # required when custom_endpoint_url is set
+    # custom_endpoint_signing_region: "" # required when custom_endpoint_url is set
+    # use_paid_apis: false
+    # table_options: nil
+    # scheduler: shuffle # options are: dfs, round-robin or shuffle
+    # use_nested_table_rate_limiting: false 
+    # enable_api_level_tracing: false 
+---
+kind: destination
+spec:
+  name: "postgresql"
+  path: "cloudquery/postgresql"
+  registry: "cloudquery"
+  version: "v8.7.8"
+  write_mode: "overwrite"
+  # Learn more about the configuration options at https://cql.ink/postgresql_destination
+  spec:
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}"
