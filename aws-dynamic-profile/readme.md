@@ -4,7 +4,8 @@ This guide is meant to follow the instructions listed in the following doc.
 
 https://docs.cloudquery.io/docs/deployment/kubernetes
 
-We will add additional values to the secret `AWS_ACCOUNT_NAME` and `AWS_ROLE_ARN`. 
-Use the `kubectl-create-secret.txt` file to create the secret, instead of the command mentioned in the doc. The rest of the deployment instructions remain the same. 
+We will create an additional secret called `cloudquery-sync-<account-name>` where we configure details for an account we want to connect to. We will also update the cronjob manifest to mount the appropriate environment variables from the newly created secret. 
+
+The rest of the deployment instructions remain the same. 
 
 Please see `test-dynamic-sync.yaml` for an example cloudquery manifest which utilizes these environment variables. 
