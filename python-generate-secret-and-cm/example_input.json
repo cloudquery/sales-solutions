@@ -1,0 +1,10 @@
+[
+    {
+        "AWS_ACCOUNT_NAME": "Cloudquery-demo",
+        "AWS_ROLE_ARN": "arn:aws:iam::586794438123:role/Playground-Assume-Role"
+    },
+    {
+        "AWS_ACCOUNT_NAME": "Cloudquery-playground",
+        "AWS_ROLE_ARN": "arn:aws:iam::615713231484:role/playground-assume-role"
+    }
+]
