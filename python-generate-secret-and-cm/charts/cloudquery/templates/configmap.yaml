@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cloudquery.fullname" . }}-config
+  labels:
+  {{- include "cloudquery.labels" . | nindent 4 }}
+  {{- include "cloudquery.annotations" . }}
+data:
+  cloudquery.yml: |-
+  {{- if .Values.tplConfig }}
+  {{- tpl .Values.config $ | nindent 4 }}
+  {{- else }}
+  {{- .Values.config | nindent 4 }}
+  {{- end }}

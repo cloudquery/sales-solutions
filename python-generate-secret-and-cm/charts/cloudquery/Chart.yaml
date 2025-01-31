@@ -1,0 +1,31 @@
+apiVersion: v2
+name: cloudquery
+description: >-
+  Open source high performance data integration platform designed for security
+  and infrastructure teams.
+home: https://cloudquery.io
+type: application
+kubeVersion: ^1.8.0-0
+icon: https://avatars.githubusercontent.com/u/74616112
+keywords:
+  - cloudquery
+sources:
+  - https://github.com/cloudquery/helm-charts/tree/main/charts/cloudquery
+maintainers:
+  - name: yevgenypats
+    email: yp@cloudquery.io
+version: 38.0.0
+appVersion: 6.12.6
+annotations:
+  artifacthub.io/license: MPL-2.0
+  artifacthub.io/links: |
+    - name: cloudquery
+      url: https://github.com/cloudquery/cloudquery
+  artifacthub.io/maintainers: |
+    - name: yevgenypats
+      email: yp@cloudquery.io
+dependencies:
+  - name: promtail
+    version: 6.16.6
+    repository: https://grafana.github.io/helm-charts
+    condition: promtail.enabled

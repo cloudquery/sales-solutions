@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "python-config-generator.name" -}}
+{{- define "cloudquery.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "python-config-generator.fullname" -}}
+{{- define "cloudquery.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,37 +26,59 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "python-config-generator.chart" -}}
+{{- define "cloudquery.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "python-config-generator.labels" -}}
-helm.sh/chart: {{ include "python-config-generator.chart" . }}
-{{ include "python-config-generator.selectorLabels" . }}
+{{- define "cloudquery.labels" -}}
+helm.sh/chart: {{ include "cloudquery.chart" . }}
+{{ include "cloudquery.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- with .Values.labels }}
+{{ toYaml . }}
+{{- end }}
+{{- end }}
+
+{{/*
+Common annotations
+*/}}
+{{- define "cloudquery.annotations" -}}
+{{- if .Values.annotations }}
+{{ indent 2 "annotations:" }}
+{{- range $key, $value := .Values.annotations }}
+{{ indent 4 $key }}: {{ $value | quote }}
+{{- end }}
+{{- end }}
 {{- end }}
 
 {{/*
 Selector labels
 */}}
-{{- define "python-config-generator.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "python-config-generator.name" . }}
+{{- define "cloudquery.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "cloudquery.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "python-config-generator.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "python-config-generator.fullname" .) .Values.serviceAccount.name }}
+{{- define "cloudquery.serviceAccountName" -}}
+{{- if .Values.serviceAccount.enabled }}
+{{- default (include "cloudquery.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
+{{- end }}
+
+{{/*
+Return the image to use depending on the AppVersion and image tag defined
+*/}}
+{{- define "cloudquery.image" -}}
+{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}
 {{- end }}

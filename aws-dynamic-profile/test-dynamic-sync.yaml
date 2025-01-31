@@ -1,7 +1,7 @@
 kind: source
 spec:
   # Source spec section
-  name: aws
+  name: "${AWS_ACCOUNT_NAME}"
   path: cloudquery/aws
   registry: cloudquery
   version: "v31.3.0"
